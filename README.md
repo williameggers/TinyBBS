@@ -337,10 +337,11 @@ SysOp, or `Z` then `R`. `NETWORK.INI` needs a restart.
 ## Flash and recovery
 
 The verified board is the Pocket-Dongle-S3 with an N16R8 module: Quad flash, Octal PSRAM, 16 MB flash and
-8 MB PSRAM. Use the board profile `esp32-s3-devkitc1-n16r8`. Its runtime image
-uses the board's QIO/OPI arrangement, but the serial write must use **DIO**.
-Do not force QIO in a direct `esptool` command: the ROM can reset before the
-bootloader loads, producing repeated USB connect/disconnect sounds.
+8 MB PSRAM. Use the board profile `esp32-s3-devkitc1-n16r8`, a project-local
+definition in `boards/esp32-s3-devkitc1-n16r8.json`. Its runtime image uses the
+board's QIO/OPI arrangement, but the serial write must use **DIO**. Do not force
+QIO in a direct `esptool` command: the ROM can reset before the bootloader
+loads, producing repeated USB connect/disconnect sounds.
 
 If a normal PlatformIO upload stalls because Windows cannot print ESP32 upload
 glyphs, build without uploading and use the direct, hash-verifying recovery

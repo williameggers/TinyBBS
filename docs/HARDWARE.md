@@ -23,10 +23,13 @@ uses the same assignments. Another ESP32-S3 board needs its own pin check.
 | Caller transports | HTTP browser terminal on port 80, Telnet on port 23 |
 
 The connected board reported 16 MB flash and 8 MB embedded PSRAM during the
-2026-11-11 flash. The dongle has no PlatformIO board of its own; the
-`esp32-s3-devkitc1-n16r8` definition matches its module. Check a replacement
-board before changing memory or flash settings. Do not assume an arbitrary
-ESP32-S3 board has PSRAM.
+2026-11-11 flash. The dongle has no PlatformIO board of its own, so the profile
+is a project-local definition in
+`boards/esp32-s3-devkitc1-n16r8.json`. It matches the module's 16 MB flash and
+QIO flash/OPI PSRAM arrangement; PlatformIO does not ship that board ID. Keep
+the file in the checkout when building. Check a replacement board before
+changing memory or flash settings. Do not assume an arbitrary ESP32-S3 board
+has PSRAM.
 
 ## Pin map
 

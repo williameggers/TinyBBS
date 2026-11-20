@@ -51,8 +51,9 @@ functions, include it in `main.cpp` before `doors/doors.h`, and add one line
 to the `DOORS` table.
 
 Build: `pio run` (profile `esp32-s3-devkitc1-n16r8`, build folder
-`.pio-tinybbs`). Flash with `pio run -t upload`, or the DIO recovery command
-in `README.md`.
+`.pio-tinybbs`). The profile is a project-local custom board in
+`boards/esp32-s3-devkitc1-n16r8.json`, not a PlatformIO built-in. Flash with
+`pio run -t upload`, or the DIO recovery command in `README.md`.
 
 SD-card source content is in `sd/BBS/`. `tools/prepare-sd.ps1` copies it to a
 card and creates the folders the board needs. Content that is not in the
