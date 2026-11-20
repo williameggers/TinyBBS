@@ -81,6 +81,48 @@ On other Linux distributions the package names differ. For example, on Rocky
 Linux they are `gcc-c++ cmake mbedtls-devel civetweb-devel` (CivetWeb may need
 the EPEL repository). The dev container avoids this entirely.
 
+## Clean build recipe
+
+Use this when you want a fresh, reproducible build: after pulling changes,
+before reporting a build problem, or when generated files look stale. Run all
+commands from the repository root.
+
+Server:
+
+```sh
+rm -rf server/build
+cmake -S server -B server/build
+cmake --build server/build
+```
+
+Firmware:
+
+```sh
+pio run -t clean
+pio run
+```
+
+For everyday work you do not need to clean. Rerun `cmake --build server/build`
+or `pio run`; only changed files are rebuilt.
+
+Both build folders are generated and gitignored:
+
+| Folder | Created by | Safe to delete? |
+| --- | --- | --- |
+| `server/build/` | CMake | Yes — delete and reconfigure with the two commands above |
+| `.pio-tinybbs/` | PlatformIO | Yes — delete, or use `pio run -t clean` |
+
+Deleting these folders removes only build output. PlatformIO keeps its
+downloaded platform, compiler and libraries in `~/.platformio`, so a cleaned
+firmware build normally needs no network. After a clean build, `git status`
+should show no untracked build folders.
+
+One tracked exception: the firmware build regenerates `src/net/web_terminal.h`
+and `src/net/sysop_page.h` from `shared/web/terminal.html` and
+`shared/web/sysop.html`. Edit the HTML files, run `pio run`, and commit the
+regenerated headers together with the HTML change. A clean rebuild rewrites
+those headers only when the HTML actually changed.
+
 ## Build the server
 
 Run these two commands from the repository root:
@@ -130,8 +172,7 @@ server/build/tinybbs-server
 - An error mentioning `civetweb.h` or `libcivetweb`: `libcivetweb-dev` is
   missing. CivetWeb is needed even for the small smoke check, because both
   programs are built from the same recipe.
-- For a completely fresh start, delete the generated folder
-  (`rm -rf server/build`) and run the two commands again.
+- For a completely fresh start, follow [Clean build recipe](#clean-build-recipe).
 
 ## Check the build on a test copy
 
@@ -269,6 +310,9 @@ To throw away the build and start again:
 pio run -t clean
 pio run
 ```
+
+See [Clean build recipe](#clean-build-recipe) if you also want to rebuild the
+server from scratch.
 
 The finished files are:
 

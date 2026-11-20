@@ -1,4 +1,6 @@
 .pio*/
+# CMake build output for the Linux server (see BUILD.md).
+server/build/
 .vscode/
 *.bak
 *.part
